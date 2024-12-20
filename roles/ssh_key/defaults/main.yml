@@ -1,0 +1,4 @@
+---
+ssh_key_dir: passwords
+ssh_key_users: []
+...

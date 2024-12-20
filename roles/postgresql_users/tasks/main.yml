@@ -1,0 +1,12 @@
+---
+- name: Update PostgreSQL users
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: '{{ item.name }}'
+    password: '{{ item.password }}'
+    role_attr_flags: '{{ item.role_attr_flags | default(omit) }}'
+    state: present
+  loop: '{{ postgresql_users_list }}'
+  no_log: true
+...

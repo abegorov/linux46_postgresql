@@ -1,0 +1,27 @@
+---
+- name: Configure PostgreSQL server
+  ansible.builtin.template:
+    src: postgresql.conf
+    dest: /var/lib/pgsql/data/postgresql.conf
+    lstrip_blocks: true
+    owner: postgres
+    group: postgres
+    mode: '0600'
+  notify: Reload service postgresql
+
+- name: Configure PostgreSQL host-based authentication
+  ansible.builtin.template:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: '0600'
+  notify: Reload service postgresql
+
+- name: Enable and start service postgresql
+  ansible.builtin.systemd_service:
+    name: postgresql.service
+    enabled: true
+    state: started
+  ignore_errors: '{{ ansible_check_mode }}'
+...

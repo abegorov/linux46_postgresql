@@ -1,0 +1,14 @@
+---
+ip: '192.168.57.11'
+
+postgresql_users_list:
+  - name: '{{ postgresql_replica_user }}'
+    password: '{{ postgresql_replica_password }}'
+    role_attr_flags: REPLICATION
+  - name: '{{ barman_user }}'
+    password: '{{ barman_password }}'
+    role_attr_flags: SUPERUSER,REPLICATION
+
+ssh_authorized_keys_users_files:
+  postgres: [passwords/barman.pub]
+...

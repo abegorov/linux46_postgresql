@@ -1,0 +1,6 @@
+---
+- name: Init PostgreSQL database cluster
+  ansible.builtin.command: postgresql-setup --initdb
+  args:
+    creates: /var/lib/pgsql/data/postgresql.conf
+...

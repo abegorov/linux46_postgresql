@@ -1,0 +1,7 @@
+---
+postgresql_replica_host: '{{ undef(hint="postgresql_replica_host") }}'
+postgresql_replica_user: postgres
+postgresql_replica_data: /var/lib/pgsql/data
+postgresql_replica_password: '{{ lookup("ansible.builtin.password",
+  "passwords/postgresql_postgres_password.txt", length=26) }}'
+...

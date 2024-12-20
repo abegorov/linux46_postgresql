@@ -1,0 +1,6 @@
+---
+- name: Install barman
+  ansible.builtin.dnf:
+    name: barman-cli
+    state: present
+...

@@ -1,0 +1,16 @@
+---
+- name: Install PostgreSQL Server
+  ansible.builtin.dnf:
+    name:
+      - postgresql-server
+      - python3-psycopg2
+    state: present
+
+- name: Enable postgresql service in firewalld
+  ansible.posix.firewalld:
+    service: postgresql
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+...

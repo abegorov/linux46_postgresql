@@ -1,0 +1,5 @@
+---
+ip: '192.168.57.12'
+
+postgresql_replica_host: '{{ hostvars["leader"].ip }}'
+...

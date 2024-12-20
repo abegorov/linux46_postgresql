@@ -1,0 +1,42 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+
+postgresql_config_hba:
+  - type: host
+    database: replication
+    user: '{{ postgresql_replica_user }}'
+    address: '{{ hostvars["leader"].ip }}/32'
+    method: scram-sha-256
+  - type: host
+    database: replication
+    user: '{{ postgresql_replica_user }}'
+    address: '{{ hostvars["replica"].ip }}/32'
+    method: scram-sha-256
+  - type: host
+    database: all
+    user: '{{ barman_user }}'
+    address: '{{ hostvars["barman"].ip }}/32'
+    method: scram-sha-256
+  - type: host
+    database: replication
+    user: '{{ barman_user }}'
+    address: '{{ hostvars["barman"].ip }}/32'
+    method: scram-sha-256
+
+postgresql_config_override:
+  listen_addresses: '{{ ip }}'
+  hot_standby: true
+  wal_level: replica
+  max_wal_senders: 3
+  max_replication_slots: 3
+  hot_standby_feedback: true
+  password_encryption: scram-sha-256
+
+postgresql_replica_user: replication
+postgresql_replica_password: '{{ lookup("ansible.builtin.password",
+  "passwords/postgresql_replica_password.txt", length=26) }}'
+
+barman_user: barman
+barman_password: '{{ lookup("ansible.builtin.password",
+  "passwords/barman_password.txt", length=26) }}'
+...

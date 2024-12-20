@@ -1,0 +1,36 @@
+---
+- name: Common provision
+  hosts: all
+  become: true
+  gather_facts: false
+  roles:
+    - postgresql_install
+    - epel_release
+    - barman_cli
+
+- name: Barman provision
+  hosts: [barman]
+  become: true
+  gather_facts: false
+  roles:
+    - barman
+    - ssh_key
+    - ssh_known_hosts
+
+- name: Leader provision
+  hosts: [leader]
+  become: true
+  gather_facts: false
+  roles:
+    - postgresql_init
+    - postgresql_config
+    - postgresql_users
+    - ssh_authorized_keys
+
+- name: Replica provision
+  hosts: [replica]
+  become: true
+  gather_facts: false
+  roles:
+    - postgresql_replica
+    - postgresql_config

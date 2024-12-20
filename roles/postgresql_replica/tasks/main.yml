@@ -1,0 +1,17 @@
+---
+- name: Init PostgreSQL database cluster
+  become: true
+  become_user: postgres
+  environment:
+    PGPASSWORD: '{{ postgresql_replica_password }}'
+  ansible.builtin.command: >-
+    pg_basebackup
+    --host='{{ postgresql_replica_host }}'
+    --username='{{ postgresql_replica_user }}'
+    --pgdata='{{ postgresql_replica_data }}'
+    --write-recovery-conf
+    --create-slot
+    --slot='{{ inventory_hostname }}'
+  args:
+    creates: '{{ postgresql_replica_data }}/postgresql.conf'
+...

@@ -1,0 +1,8 @@
+---
+ip: '192.168.57.13'
+
+ssh_key_users: [barman]
+ssh_known_hosts_user: '{{ ssh_key_users }}'
+ssh_known_hosts_list:
+  - '{{ hostvars["leader"].ip }}'
+...
