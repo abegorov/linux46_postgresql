@@ -1,0 +1,24 @@
+---
+- name: Update barman config
+  ansible.builtin.template:
+    src: barman.conf
+    dest: /etc/barman/barman.conf
+    lstrip_blocks: true
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Update server configs
+  ansible.builtin.template:
+    src: server.conf
+    dest: /etc/barman/conf.d/{{ server.name }}.conf
+    lstrip_blocks: true
+    owner: root
+    group: root
+    mode: '0644'
+  loop: '{{ barman_config_servers |
+    ansible.builtin.dict2items(key_name="name") }}'
+  loop_control:
+    label: '{{ server.name }}'
+    loop_var: server
+...

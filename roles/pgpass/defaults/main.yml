@@ -1,0 +1,17 @@
+---
+pgpass_default:
+  owner: root
+  port: 5432
+  database: '*'
+pgpass_files: {}
+
+# pgpass_files:
+#   /var/lib/barman/.pgpass:
+#     owner: barman
+#     passwords:
+#       - server: barman
+#         port: 5432
+#         database: '*'
+#         user: barman
+#         password: password
+...

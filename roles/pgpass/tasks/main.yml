@@ -1,0 +1,13 @@
+---
+- name: Update .pgpass files
+  ansible.builtin.template:
+    src: pgpass.j2
+    dest: '{{ item.key }}'
+    owner: '{{ item.value.owner | default(pgpass_defaults.owner) }}'
+    group: '{{ item.value.owner | default(pgpass_defaults.owner) }}'
+    mode: '0600'
+  no_log: true
+  loop: '{{ pgpass_files | ansible.builtin.dict2items }}'
+  loop_control:
+    label: '{{ item.key }}'
+...

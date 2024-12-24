@@ -1,0 +1,14 @@
+{% for passwd in item.value.passwords %}
+{{
+  passwd.server | default(pgpass_default.server)
+}}:{{
+  passwd.port | default(pgpass_default.port)
+}}:{{
+  passwd.database | default(pgpass_default.database)
+}}:{{
+  passwd.user | default(pgpass_default.user)
+}}:{{
+  passwd.password | default(pgpass_default.password) |
+    replace('\\', '\\\\') | replace(':', '\\:')
+}}
+{% endfor %}

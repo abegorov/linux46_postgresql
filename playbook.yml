@@ -13,9 +13,10 @@
   become: true
   gather_facts: false
   roles:
-    - barman
+    - barman_install
     - ssh_key
     - ssh_known_hosts
+    - pgpass
 
 - name: Leader provision
   hosts: [leader]
@@ -34,3 +35,10 @@
   roles:
     - postgresql_replica
     - postgresql_config
+
+- name: Barman provision
+  hosts: [barman]
+  become: true
+  gather_facts: false
+  roles:
+    - barman_config

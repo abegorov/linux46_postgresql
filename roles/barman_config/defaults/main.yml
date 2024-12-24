@@ -1,0 +1,30 @@
+---
+barman_config_default:
+  barman_home: /var/lib/barman
+  configuration_files_directory: /etc/barman/conf.d
+  barman_user: barman
+  log_file: /var/log/barman/barman.log
+  compression: gzip
+  backup_method: rsync
+  archiver: true
+  retention_policy: REDUNDANCY 3
+  immediate_checkpoint: true
+  last_backup_maximum_age: 4 DAYS
+  minimum_redundancy: 1
+barman_config_override: {}
+
+barman_config_server_default:
+  description: 'backup {{ server.name }}'
+  ssh_command: ssh postgres@{{ server.name }}
+  conninfo: host={{ server.name }} user=barman port=5432 dbname=postgres
+  retention_policy_mode: auto
+  retention_policy: RECOVERY WINDOW OF 7 days
+  wal_retention_policy: main
+  streaming_archiver: true
+  create_slot: auto
+  slot_name: '{{ inventory_hostname }}'
+  streaming_conninfo: host={{ server.name }} user=barman
+  backup_method: postgres
+  archiver: false
+barman_config_servers: {}
+...
