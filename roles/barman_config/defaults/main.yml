@@ -1,4 +1,6 @@
 ---
+barman_config_cron: '0 0 * * *'
+
 barman_config_default:
   barman_home: /var/lib/barman
   configuration_files_directory: /etc/barman/conf.d

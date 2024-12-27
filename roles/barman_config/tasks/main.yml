@@ -21,4 +21,27 @@
   loop_control:
     label: '{{ server.name }}'
     loop_var: server
+
+- name: Perform initial backup
+  become: true
+  become_user: barman
+  ansible.builtin.shell: |
+    while ! barman --quiet switch-wal --archive {{ item }}; do
+      barman --quiet cron
+      sleep 1
+    done
+    barman --quiet switch-wal --archive {{ item }}
+    barman --quiet backup --wait {{ item }}
+  args:
+    creates: /var/lib/barman/{{ item }}/identity.json
+  loop: '{{ barman_config_servers.keys() }}'
+
+- name: Schedule barman backup
+  ansible.builtin.template:
+    src: barman-backup.j2
+    dest: /etc/cron.d/barman-backup
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload systemd service crond
 ...

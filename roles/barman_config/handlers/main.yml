@@ -1,0 +1,6 @@
+---
+- name: Reload systemd service crond
+  ansible.builtin.systemd_service:
+    name: crond.service
+    state: reloaded
+...
